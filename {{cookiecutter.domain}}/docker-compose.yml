@@ -1,0 +1,18 @@
+version: '3'
+
+networks:
+  web:
+    external:
+      name: web
+
+services:
+  {{ cookiecutter.appName }}:
+    build: .
+    # image: {{ cookiecutter.appName }}
+    volumes:
+      - './{{ cookiecutter.appName }}/:/app/'
+    labels:
+      - 'traefik.HTTP.Routers.{{ cookiecutter.appName }}.Rule=Host(`{{ cookiecutter.domain }}`)'
+      - 'traefik.docker.network=web'
+    networks:
+      - web
